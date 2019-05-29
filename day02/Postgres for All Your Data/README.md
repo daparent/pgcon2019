@@ -20,6 +20,8 @@
 	* can be indexed
 	* ->> returns a value as a text field, the slide does not have a typo (slide 28)
 	* there are support functions for getting JSON types but it would likely require a case statement in the SQL to check the type and then do appropriate comparison
+	* there is a way to constrain values to types on INSERT so that using a CAST becomes safe when doing comparisons
+		* using relational constraints not by a supplied JSON schema definition
 * Data analytics support in postgres, can run R code on the database
 * Analytics - create a read-only slave to keep the work off the main database
 * Foreign Data Wrappers to connect to external services using a REST based connection
@@ -51,3 +53,10 @@
 * can define your own stop words and other lexical values.  It may need to be done through text files - interesting but unlikely to be something I ever work with.
 * supports only tri-grams if you use the pg_trgm extension
 * the use of tri-grams is quite powerful for full text searching
+
+## Part 3 - Flexible Indexing With Postgres
+* why partial indexes?  Well the indexes are smaller
+	* say searches are frequently done on a particular city why index all of them?
+* can use BRIN indexes to index all columns in a table
+* BRIN indexes can be very helpful if you don't yet know how data will be queried
+* For BRIN to really work the tables should be ordered (for example time-series) this allows skipping potentially large chunks of the stored data
