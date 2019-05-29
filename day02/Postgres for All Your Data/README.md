@@ -24,3 +24,30 @@
 * Analytics - create a read-only slave to keep the work off the main database
 * Foreign Data Wrappers to connect to external services using a REST based connection
 	* Pushes JOINs, ORDER BYs, and aggregates to other machine
+
+## Part 2 - Non-Relational Postgres
+* Arrays are **1 based** NOT 0 based
+* Convert arrays into rows (pivot the array) using unnest
+* Can take rows and aggregate them into an array
+* [ is exclusive and ) is inclusive - see slide 11, it looks like a mistake but it is not when working with a range
+* A GIST index can index a range type
+* Can make sure that there are no overlapping ranges, see slide 14
+* POINT datatype stores x and y co-ordinates together
+* GIST index for POINT column will index POINTs
+* Can do nearest neighbour search based on the GIST index
+* Can write xpath queries in postgres, interesting but somewhat dated for most "modern" databases
+* JSON, **not** JSONB
+	* is stored as a text field but can do WHERE clauses
+	* does support a simple INDEX but JSONB has more (possibly better) support
+* JSONB **not** JSON
+	* understands types
+	* index all keys and values
+	* binary search lookup for speedy searches/access
+	* will remove duplicate keys and last matching key wins?  Looks like it
+	* can use a GIN index - store key once, matches multiple times - good for JSONB
+	* with GIN you don't have to specify what field to index, it will index all of them
+* Supports full text search, how does it compare to ElasticSearch?  Is it worth testing?  See slide 52
+* create a GIN index for full text search queries and the searches will use an index
+* can define your own stop words and other lexical values.  It may need to be done through text files - interesting but unlikely to be something I ever work with.
+* supports only tri-grams if you use the pg_trgm extension
+* the use of tri-grams is quite powerful for full text searching
