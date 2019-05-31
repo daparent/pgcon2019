@@ -40,3 +40,4 @@
 * Only encrypt block data and main data in the WAL record, XLogRecord header has an encrypted flag
 * Use same encryption key for WAL encryption that isused for the table
 * From perf testing by speaker it was noted that there was a maximum of 7% degradation in execution time
+##Note this talk is based on a proposal
